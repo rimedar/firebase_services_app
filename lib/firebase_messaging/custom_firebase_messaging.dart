@@ -14,10 +14,11 @@ class CustomFirebaseMessaging {
   factory CustomFirebaseMessaging() => _singleton;
 
   Future<void> inicializeApp() async {
-    
+
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(badge: true, sound: true);
-
+    // Para habilitar notificaciones a varios dispositivos se utiliza la subscriocion por topic
+    // FirebaseMessaging.instance.subscribeToTopic("nft_app");
     FirebaseMessaging.onMessage.listen((message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? andoid = notification?.android;
@@ -32,8 +33,9 @@ class CustomFirebaseMessaging {
     });
   }
 
+  // Necesario para enviar notificacion a un dispositivo en especifico
   getFirebaseToken() async {
     debugPrint(await FirebaseMessaging.instance.getToken());
   }
-
+  
 }
